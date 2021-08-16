@@ -1,0 +1,13 @@
+{% extends "company_informations/base.html" %}
+
+{% block title %} Setores da Bolsa {% endblock %}
+
+{% block pagename %} Setores {% endblock %}
+
+{% block content %}
+    {% for s in sectors_list %}
+        {{s.name}}
+        {{s.slug}}
+        {{s.id}}
+    {% endfor %}
+{% endblock %}

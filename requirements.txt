@@ -1,3 +1,8 @@
 django
 ipython
 psycopg2-binary
+yfinance
+fundamentus
+djangorestframework
+markdown
+django-filter
