@@ -17,9 +17,13 @@ from os import name
 import company_informations
 from django.contrib import admin
 from django.urls import path,include
+from rest_framework.routers import DefaultRouter
+from company_informations.api.viewsets import SectorsViewSet
+
+route = DefaultRouter()
+route.register(r'sectors', SectorsViewSet, basename="Sectors")
 
 urlpatterns = [
-    path('',include('company_informations.urls',namespace='sectors')),
-    path('api-auth/', include('rest_framework.urls')),
     path('admin/', admin.site.urls),
+    path('api/',include(route.urls)),
 ]
