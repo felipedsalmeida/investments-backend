@@ -18,10 +18,11 @@ import company_informations
 from django.contrib import admin
 from django.urls import path,include
 from rest_framework.routers import DefaultRouter
-from company_informations.api.viewsets import SectorsViewSet
+from company_informations.api import viewsets
 
 route = DefaultRouter()
-route.register(r'sectors', SectorsViewSet, basename="Sectors")
+route.register(r'sectors', viewsets.SectorViewSet, basename="Sector")
+route.register(r'companies', viewsets.CompanyViewSet, basename="Company")
 
 urlpatterns = [
     path('admin/', admin.site.urls),

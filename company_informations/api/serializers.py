@@ -1,7 +1,12 @@
 from rest_framework import serializers
 from company_informations import models
 
-class SectorsSerializer(serializers.ModelSerializer):
+class SectorSerializer(serializers.ModelSerializer):
     class Meta:
-        model= models.Sectors
+        model= models.Sector
         fields = '__all__'
+
+class CompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model= models.Company
+        fields='__all__'
