@@ -2,32 +2,42 @@ from django.db import models
 
 # Create your models here.
 
-class Sectors(models.Model):
+class Sector(models.Model):
     fid = models.IntegerField(null=False)
     name = models.CharField(max_length=100, null=False)
-    slug = models.SlugField()
-
-    class Meta:
-        unique_together = ['fid', 'slug']
-
+    slug = models.SlugField(unique=True)
+    
     def __str__(self) -> str:
-        return self.slug
+        return self.name
 
-class Companies(models.Model):
-    cod=models.CharField(max_length=10,null=False)
+class Company(models.Model):
+    cod=models.CharField(max_length=10,null=False,unique=True)
     ycod=models.CharField(max_length=10,null=False)
     name=models.CharField(max_length=255)
+    sector=models.ForeignKey(Sector, on_delete=models.CASCADE)
+    subsector=models.CharField(max_length=255)
+    created_at=models.DateTimeField(auto_created=True,auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now=True,auto_created=True)
+
+    def __str__(self) -> str:
+        return f'company:{self.cod}'
+
+class CompanyOscillation(models.Model):
+    cod=models.CharField(max_length=255)
+    min_52_week=models.DecimalField(decimal_places=2,max_digits=5)
+    max_52_week=models.DecimalField(decimal_places=2,max_digits=5)
+    vol_med_2m=models.IntegerField()
+    market_value=models.IntegerField()
+    last_balance_process=models.DateField()
+    nr_stocks=models.IntegerField()
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True,auto_created=True)
     
-    def __init__(self,cod):
-        self.cod = cod
-
     def __str__(self) -> str:
-        return self.cod
+        return f'oscillations:{self.cod}'
 
-class StockResults(models.Model):
-    cod=models.ForeignKey(Companies, on_delete=models.CASCADE)
+class MarketDayResult(models.Model):
+    cod=models.CharField(max_length=255)
     date = models.DateTimeField()
     open=models.FloatField()
     high=models.FloatField()
@@ -39,4 +49,4 @@ class StockResults(models.Model):
     created_at=models.DateTimeField(auto_created=True,auto_now_add=True)
 
     def __str__(self) -> str:
-        return self.cod + ',' + self.date
+        return 'stocks result: ' + self.cod + ',' + self.date
